@@ -20,6 +20,7 @@ type Configuration struct {
 	Cert        string `config:""`
 	Key         string `config:""`
 	Scheme      string `config:"http"`
+	ServeScheme string `config:"http"`
 	Public      string `config:"public"`
 	UseTus      string `config:"false"`
 	TusHost     string `config:"localhost:1080"`
@@ -27,6 +28,10 @@ type Configuration struct {
 
 func (c *Configuration) IsHTTPS() bool {
 	return strings.Contains(Config.Scheme, "https")
+}
+
+func (c *Configuration) ServeHTTPS() bool {
+	return strings.Contains(Config.ServeScheme, "https")
 }
 
 func (c *Configuration) IsPublic() bool {
@@ -74,4 +79,6 @@ func init() {
 		// If $PORT is set, override LFS_LISTEN. This is useful for deploying to Heroku.
 		Config.Listen = "tcp://:" + port
 	}
+
+	fmt.Printf("%+v\n", Config)
 }
